@@ -8,6 +8,9 @@
   },
   "dependencies": {
     "antd": "^4.16.13",
+    "classnames": "^2.3.1",
+    "less": "^4.1.1",
+    "less-loader": "^10.0.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-router": "^5.2.1",
