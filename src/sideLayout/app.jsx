@@ -16,11 +16,11 @@ class LayOut extends React.Component {
         return (
             <Layout>
                 <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-                    <HeaderContent></HeaderContent>
+                    {/* <HeaderContent></HeaderContent> */}
                 </Header>
                 <Content>
                     <Layout>
-                        <Sider
+                        {/* <Sider
                             style={{
                                 overflow: 'auto',
                                 position: 'fixed',
@@ -30,9 +30,9 @@ class LayOut extends React.Component {
                             }}
                         >
                             <LeftSideNav></LeftSideNav>
-                        </Sider>
+                        </Sider> */}
                         <Layout className="site-layout" style={{ marginLeft: 200, paddingTop: 64 }}>
-                            <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                            <Content style={{ overflow: 'initial' }}>
                                 {routes.map((route, i) => (
                                     <Route
                                         key={route.path}
