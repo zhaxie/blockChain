@@ -1,11 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ContentWrapper from '@src/components/ContentWrapper/app.jsx'
+import { Form, Input, InputNumber, Button, Select, Row, Col, Cascader, Modal } from 'antd';
 
-
-
-
-
-import { Form, Input, InputNumber, Button, Select, Row, Col, Cascader } from 'antd';
 const { Option } = Select;
 const layout = {
     labelCol: {
@@ -27,9 +23,42 @@ const validateMessages = {
     },
 };
 
-const MyBaseInfo = () => {
+const MyBaseInfo = (props) => {
+    const [formValues, setFormValues] = useState({
+        user: {
+            liveCode: ['广州', '天河区',],
+            name: '企业名',
+            companyType: 1,
+            registerCode: '1111',
+            mainBodyId: '4405071995',
+            liveStatus: 1,
+            companyCode: 111222,
+            societyCode: 10086,
+            liveBelong: 1,
+            companyDutyCode: 222,
+            productionArea: ['广州', '天河区',],
+            productionAreaDetails: '测试具体生产地址1',
+            liveDetails: "具体住所地址",
+            paidCapital: 100,
+            tel: 110,
+            areaCode: 120,
+            staffQty: 1000,
+            saleRange: '一般经营范围',
+            permiseSaleRange: '许可经营范围',
+        }
+    });
+
     const onFinish = (values) => {
         console.log(values);
+
+        Modal.confirm({
+            title: '确定提交',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => {
+                props.history.push('/SubmitBaseInfoResult')
+            }
+        })
     };
 
     const companyTypes = [
@@ -127,184 +156,172 @@ const MyBaseInfo = () => {
 
     return (
         <ContentWrapper>
-            <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} initialValues={{
-                user: {
-                    liveCode: ['广州', '天河区',]
-                }
-            }}>
-                <Row gutter={24}>
-                    <Col span={12} style={{ textAlign: 'right' }}>
-                        <Form.Item
-                            name={['user', 'name']}
-                            label="企业名称"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col span={12} style={{ textAlign: 'right' }}>
-                        <Form.Item
-                            name={['user', 'companyType']}
-                            label="企业类型"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                        >
-                            <Select
-                                placeholder="请选择企业类型"
-                                allowClear
-                            >
-                                {companyTypes.map(item => {
-                                    return <Option value={item.value} key={item.value}>{item.label}</Option>
-                                })}
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Form.Item
-                        name={['user', 'registerCode']}
-                        label="注册号"
+            <Form {...layout} 
+            name="nest-messages" 
+            onFinish={onFinish} 
+            validateMessages={validateMessages} 
+            initialValues={formValues}>
+                <Form.Item
+                    name={['user', 'name']}
+                    label="企业名称"
+                    rules={[
+                        {
+                            required: true,
+                        },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'companyType']}
+                    label="企业类型"
+                    rules={[
+                        {
+                            required: true,
+                        },
+                    ]}
+                >
+                    <Select
+                        placeholder="请选择企业类型"
+                        allowClear
                     >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'mainBodyId']}
-                        label="主体身份证"
+                        {companyTypes.map(item => {
+                            return <Option value={item.value} key={item.value}>{item.label}</Option>
+                        })}
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'registerCode']}
+                    label="注册号"
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'mainBodyId']}
+                    label="主体身份证"
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'liveStatus']}
+                    label="经营状态"
+                >
+                    <Select
+                        placeholder="请选择经营状态"
+                        allowClear
                     >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'liveStatus']}
-                        label="经营状态"
-                    >
-                        <Select
-                            placeholder="请选择经营状态"
-                            allowClear
-                        >
-                            <Option value={1} key={1}>在营</Option>
-                            <Option value={2} key={2}>已结业</Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'companyCode']}
-                        label="组织机构代码（9位）"
-                        rules={[
+                        <Option value={1} key={1}>在营</Option>
+                        <Option value={2} key={2}>已结业</Option>
+                    </Select>
+                </Form.Item>
 
-                        ]}
-                    >
-                        <Row justify="space-between">
-                            <Col >
-                                <Input />
-                            </Col>
-                            <Button type="primary" htmlType="submit">
-                                电子证照
-                            </Button>
-                        </Row>
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'mainBodyId']}
-                        label="统一社会信用代码（18位）"
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'liveCode']}
-                        label="住所所在区"
-                    >
-                        <Cascader
-                            options={liveAreaList}
-                            placeholder="请选择住所所在区"
-                        />
-                    </Form.Item>
-                    <Form.Item name={['user', 'liveDetails']} label="具体住所地址">
-                        <Input />
-                    </Form.Item>
-                    <Form.Item name={['user', 'liveBelong']} label="住所产权">
-                        <Select
-                            placeholder="请选择经营状态"
-                            allowClear
-                        >
-                            <Option value={1} key={1}>私产房</Option>
-                            <Option value={2} key={2}>公房</Option>
-                            <Option value={3} key={3}>经济商用房</Option>
-                            <Option value={4} key={4}>集体所有房</Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'paidCapital']}
-                        label="实收资本"
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'paidCapital']}
-                        label="企业税号"
-                    >
-                        <Row justify="space-between">
-                            <Col >
-                                <Input />
-                            </Col>
-                            <Button type="primary" htmlType="submit">
-                                电子证照
-                            </Button>
-                        </Row>
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'productionArea']}
-                        label="生产经营所在区"
-                    >
-                        <Cascader
-                            options={liveAreaList}
-                            placeholder="请选择生产经营所在区"
-                        />
-                    </Form.Item>
-                    <Form.Item name={['user', 'productionAreaDetails']} label="具体生产经营地址">
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'name']}
-                        label="联系电话"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'name']}
-                        label="邮政编码"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name={['user', 'name']}
-                        label="从业人数"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                <Form.Item
+                    name={['user', 'companyCode']}
+                    label="组织机构代码（9位）"
+                >
+                            <Input />
+                    <Row justify="space-between">
+                        <Col >
+                        </Col>
                         <Button type="primary" htmlType="submit">
-                            Submit
+                            电子证照
                         </Button>
-                    </Form.Item>
-                </Row>
+                    </Row>
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'societyCode']}
+                    label="统一社会信用代码（18位）"
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'liveCode']}
+                    label="住所所在区"
+                >
+                    <Cascader
+                        options={liveAreaList}
+                        placeholder="请选择住所所在区"
+                    />
+                </Form.Item>
+                <Form.Item name={['user', 'liveDetails']} label="具体住所地址">
+                    <Input />
+                </Form.Item>
+                <Form.Item name={['user', 'liveBelong']} label="住所产权">
+                    <Select
+                        placeholder="请选择经营状态"
+                        allowClear
+                    >
+                        <Option value={1} key={1}>私产房</Option>
+                        <Option value={2} key={2}>公房</Option>
+                        <Option value={3} key={3}>经济商用房</Option>
+                        <Option value={4} key={4}>集体所有房</Option>
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'paidCapital']}
+                    label="实收资本（万元）"
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'companyDutyCode']}
+                    label="企业税号"
+                >
+                    <Row justify="space-between">
+                        <Col >
+                            <Input />
+                        </Col>
+                        <Button type="primary" htmlType="submit">
+                            电子证照
+                        </Button>
+                    </Row>
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'productionArea']}
+                    label="生产经营所在区"
+                >
+                    <Cascader
+                        options={liveAreaList}
+                        placeholder="请选择生产经营所在区"
+                    />
+                </Form.Item>
+                <Form.Item name={['user', 'productionAreaDetails']} label="具体生产经营地址">
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'tel']}
+                    label="联系电话"
+                    rules={[
+                        {
+                            required: true,
+                        },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'areaCode']}
+                    label="邮政编码"
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name={['user', 'staffQty']}
+                    label="从业人数"
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item name={['user', 'saleRange']} label="一般经营范围">
+                    <Input.TextArea />
+                </Form.Item>
+                <Form.Item name={['user', 'permiseSaleRange']} label="许可经营范围">
+                    <Input.TextArea />
+                </Form.Item>
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                    <Button type="primary" htmlType="submit">
+                        提交
+                    </Button>
+                </Form.Item>
             </Form>
         </ContentWrapper>
     );

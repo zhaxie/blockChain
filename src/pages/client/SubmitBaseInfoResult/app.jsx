@@ -1,11 +1,17 @@
-import React from 'react'
+import { Result, Button } from 'antd';
 
-class SubmitBaseInfoResult extends React.Component {
-    render() {
-        return (
-            <div>提交完基本信息的结果页</div>
-        )
-    }
+const SubmitBaseInfoResult = (props) => {
+    return <Result
+    status="success"
+    title="提交成功"
+    subTitle="请耐心等待审核"
+    extra={[
+      <Button type="primary" key="console" onClick={() => {
+          props.history.go(-1)
+      }}>
+    返回
+      </Button>,
+    ]}
+  />
 }
-
 export default SubmitBaseInfoResult

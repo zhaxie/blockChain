@@ -6,6 +6,11 @@ import SubmitBaseInfoResult from '../pages/client/SubmitBaseInfoResult/app'
 
 
 export const sideLayoutRoutes = [
+    // {
+    //     name: '我的信息',
+    //     path: "/",
+    //     component: MyBaseInfo
+    // },
     {
         name: '我的信息',
         path: "/MyBaseInfo",
@@ -20,6 +25,7 @@ export const sideLayoutRoutes = [
 
 const fullScreenRoutes = [
     {
+        name: '登录',
         path: "/client/Login",
         component: Login,
     },
