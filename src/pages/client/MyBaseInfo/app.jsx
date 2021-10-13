@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import ContentWrapper from '@src/components/ContentWrapper/app.jsx'
 import { Form, Input, InputNumber, Button, Select, Row, Col, Cascader, Modal } from 'antd';
+import { useDispatch } from 'react-redux'
+import { addCheck } from '@src/store/components/check.js'
 
 const { Option } = Select;
 const layout = {
@@ -24,8 +26,8 @@ const validateMessages = {
 };
 
 const MyBaseInfo = (props) => {
+    const dispatch = useDispatch()
     const [formValues, setFormValues] = useState({
-        user: {
             liveCode: ['广州', '天河区',],
             name: '企业名',
             companyType: 1,
@@ -45,7 +47,6 @@ const MyBaseInfo = (props) => {
             staffQty: 1000,
             saleRange: '一般经营范围',
             permiseSaleRange: '许可经营范围',
-        }
     });
 
     const onFinish = (values) => {
@@ -56,7 +57,11 @@ const MyBaseInfo = (props) => {
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-                props.history.push('/SubmitBaseInfoResult')
+                console.info('values', values)
+                console.info('dispatch', dispatch)
+                dispatch(addCheck(values))
+                props.history.push('/sideLayout/SubmitBaseInfoResult')
+
             }
         })
     };
@@ -162,7 +167,7 @@ const MyBaseInfo = (props) => {
             validateMessages={validateMessages} 
             initialValues={formValues}>
                 <Form.Item
-                    name={['user', 'name']}
+                    name={['name']}
                     label="企业名称"
                     rules={[
                         {
@@ -173,7 +178,7 @@ const MyBaseInfo = (props) => {
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'companyType']}
+                    name={['companyType']}
                     label="企业类型"
                     rules={[
                         {
@@ -191,19 +196,19 @@ const MyBaseInfo = (props) => {
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'registerCode']}
+                    name={['registerCode']}
                     label="注册号"
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'mainBodyId']}
+                    name={['mainBodyId']}
                     label="主体身份证"
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'liveStatus']}
+                    name={['liveStatus']}
                     label="经营状态"
                 >
                     <Select
@@ -216,7 +221,7 @@ const MyBaseInfo = (props) => {
                 </Form.Item>
 
                 <Form.Item
-                    name={['user', 'companyCode']}
+                    name={['companyCode']}
                     label="组织机构代码（9位）"
                 >
                             <Input />
@@ -229,13 +234,13 @@ const MyBaseInfo = (props) => {
                     </Row>
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'societyCode']}
+                    name={['societyCode']}
                     label="统一社会信用代码（18位）"
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'liveCode']}
+                    name={['liveCode']}
                     label="住所所在区"
                 >
                     <Cascader
@@ -243,10 +248,10 @@ const MyBaseInfo = (props) => {
                         placeholder="请选择住所所在区"
                     />
                 </Form.Item>
-                <Form.Item name={['user', 'liveDetails']} label="具体住所地址">
+                <Form.Item name={['liveDetails']} label="具体住所地址">
                     <Input />
                 </Form.Item>
-                <Form.Item name={['user', 'liveBelong']} label="住所产权">
+                <Form.Item name={['liveBelong']} label="住所产权">
                     <Select
                         placeholder="请选择经营状态"
                         allowClear
@@ -258,13 +263,13 @@ const MyBaseInfo = (props) => {
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'paidCapital']}
+                    name={['paidCapital']}
                     label="实收资本（万元）"
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'companyDutyCode']}
+                    name={['companyDutyCode']}
                     label="企业税号"
                 >
                     <Row justify="space-between">
@@ -277,7 +282,7 @@ const MyBaseInfo = (props) => {
                     </Row>
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'productionArea']}
+                    name={['productionArea']}
                     label="生产经营所在区"
                 >
                     <Cascader
@@ -285,11 +290,11 @@ const MyBaseInfo = (props) => {
                         placeholder="请选择生产经营所在区"
                     />
                 </Form.Item>
-                <Form.Item name={['user', 'productionAreaDetails']} label="具体生产经营地址">
+                <Form.Item name={['productionAreaDetails']} label="具体生产经营地址">
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'tel']}
+                    name={['tel']}
                     label="联系电话"
                     rules={[
                         {
@@ -300,21 +305,21 @@ const MyBaseInfo = (props) => {
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'areaCode']}
+                    name={['areaCode']}
                     label="邮政编码"
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name={['user', 'staffQty']}
+                    name={['staffQty']}
                     label="从业人数"
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item name={['user', 'saleRange']} label="一般经营范围">
+                <Form.Item name={['saleRange']} label="一般经营范围">
                     <Input.TextArea />
                 </Form.Item>
-                <Form.Item name={['user', 'permiseSaleRange']} label="许可经营范围">
+                <Form.Item name={['permiseSaleRange']} label="许可经营范围">
                     <Input.TextArea />
                 </Form.Item>
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
