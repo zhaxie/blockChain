@@ -1,13 +1,18 @@
 import React from 'react'
 import { Avatar, Popover } from 'antd'
+import { useSelector } from 'react-redux'
 import './app.less'
 
 const loginPopover = (props) => {
     return <div className="login-out-btn" onClick={() => {
-        props.history.push('/client/Login')
+        console.info('location', location)
+        props.history.push(`/client/Login?redirectUrl=${location.href}`)
     }}>退出登录</div>
 }
+
 const Header = (props) => {
+    const {username} = useSelector((state) => state.user.userInfoObj)
+
     return (
         <div className="layout-header-wrappper">
             <div className="left-content">
@@ -17,8 +22,8 @@ const Header = (props) => {
                 <div>
                     <Popover content={loginPopover(props)} placement="bottom">
                         <Avatar size={32} />
-                        <span className="user-name">用户名</span>
-                    </Popover>,
+                        <span className="user-name">{username}</span>
+                    </Popover>
                 </div>
 
             </div>

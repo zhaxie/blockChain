@@ -28,25 +28,25 @@ const validateMessages = {
 const MyBaseInfo = (props) => {
     const dispatch = useDispatch()
     const [formValues, setFormValues] = useState({
-            liveCode: ['广州', '天河区',],
-            name: '企业名',
-            companyType: 1,
-            registerCode: '1111',
-            mainBodyId: '4405071995',
-            liveStatus: 1,
-            companyCode: 111222,
-            societyCode: 10086,
-            liveBelong: 1,
-            companyDutyCode: 222,
-            productionArea: ['广州', '天河区',],
-            productionAreaDetails: '测试具体生产地址1',
-            liveDetails: "具体住所地址",
-            paidCapital: 100,
-            tel: 110,
-            areaCode: 120,
-            staffQty: 1000,
-            saleRange: '一般经营范围',
-            permiseSaleRange: '许可经营范围',
+        liveCode: ['广州', '天河区',],
+        name: '企业名',
+        companyType: 1,
+        registerCode: '1111',
+        mainBodyId: '4405071995',
+        liveStatus: 1,
+        companyCode: 111222,
+        societyCode: 10086,
+        liveBelong: 1,
+        companyDutyCode: 222,
+        productionArea: ['广州', '天河区',],
+        productionAreaDetails: '测试具体生产地址1',
+        liveDetails: "具体住所地址",
+        paidCapital: 100,
+        tel: 110,
+        areaCode: 120,
+        staffQty: 1000,
+        saleRange: '一般经营范围',
+        permiseSaleRange: '许可经营范围',
     });
 
     const onFinish = (values) => {
@@ -161,11 +161,11 @@ const MyBaseInfo = (props) => {
 
     return (
         <ContentWrapper>
-            <Form {...layout} 
-            name="nest-messages" 
-            onFinish={onFinish} 
-            validateMessages={validateMessages} 
-            initialValues={formValues}>
+            <Form {...layout}
+                name="nest-messages"
+                onFinish={onFinish}
+                validateMessages={validateMessages}
+                initialValues={formValues}>
                 <Form.Item
                     name={['name']}
                     label="企业名称"
@@ -221,16 +221,21 @@ const MyBaseInfo = (props) => {
                 </Form.Item>
 
                 <Form.Item
-                    name={['companyCode']}
                     label="组织机构代码（9位）"
                 >
-                            <Input />
                     <Row justify="space-between">
+                        <Form.Item
+                            name={['companyCode']}
+                        >
+                            <Input />
+                        </Form.Item>
                         <Col >
+                            <Button type="primary" onClick={() => {
+                                props.history.push('/sideLayout/AcountList')
+                            }}>
+                                查看
+                            </Button>
                         </Col>
-                        <Button type="primary" htmlType="submit">
-                            电子证照
-                        </Button>
                     </Row>
                 </Form.Item>
                 <Form.Item
@@ -269,15 +274,20 @@ const MyBaseInfo = (props) => {
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name={['companyDutyCode']}
                     label="企业税号"
                 >
                     <Row justify="space-between">
                         <Col >
-                            <Input />
+                            <Form.Item
+                                name={['companyDutyCode']}
+                            >
+                                <Input />
+                            </Form.Item>
                         </Col>
-                        <Button type="primary" htmlType="submit">
-                            电子证照
+                        <Button type="primary" onClick={() => {
+                            props.history.push('/sideLayout/AcountList')
+                        }}>
+                            查看
                         </Button>
                     </Row>
                 </Form.Item>

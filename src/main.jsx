@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 
 ReactDOM.render(
   <Provider store={store}>
-  <RouteDom />,
+    <RouteDom />,
   </Provider>,
   document.getElementById('root')
 )

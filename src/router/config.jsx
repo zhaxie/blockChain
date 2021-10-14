@@ -4,6 +4,8 @@ import SideLayout from '../sideLayout/app'
 import MyBaseInfo from '../pages/client/MyBaseInfo/app'
 import SubmitBaseInfoResult from '../pages/client/SubmitBaseInfoResult/app'
 import toCheckList from '@src/pages/admin/toCheckList/app.jsx'
+import AcountList from '@src/pages/AcountList/app.jsx'
+
 import Home from '../pages/client/Home/app'
 
 export const sideLayoutRoutes = [
@@ -35,6 +37,11 @@ const fullScreenRoutes = [
                 name: '提交结果页',
                 path: "/sideLayout/SubmitBaseInfoResult",
                 component: SubmitBaseInfoResult
+            },
+            {
+                name: '账本列表',
+                path: "/sideLayout/AcountList",
+                component: AcountList
             },
         ]
     },

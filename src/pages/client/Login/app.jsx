@@ -1,13 +1,25 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import ContentWrapper from '@src/components/ContentWrapper/app.jsx'
+import { useDispatch } from 'react-redux'
+import { setUserInfo } from '@src/store/components/user.js'
 
 import './app.less'
 
 const Login = (props) => {
+    const dispatch = useDispatch()
+
     const onFinish = (values) => {
         console.log('Success:', values);
+        console.info('location', location)
+        console.info('location.hash', location.hash)
 
-        props.history.push('/')
+        const search = `?${location.hash.split('?')[1]}`
+        const redirectUrl = new URLSearchParams(search).get('redirectUrl')
+
+        console.info('redirectUrl', redirectUrl)
+
+        dispatch(setUserInfo(values))
+        props.history.push(redirectUrl || '/')
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -57,17 +69,6 @@ const Login = (props) => {
                         ]}
                     >
                         <Input.Password />
-                    </Form.Item>
-
-                    <Form.Item
-                        name="remember"
-                        valuePropName="checked"
-                        wrapperCol={{
-                            offset: 8,
-                            span: 16,
-                        }}
-                    >
-                        <Checkbox>记住我</Checkbox>
                     </Form.Item>
 
                     <Form.Item
