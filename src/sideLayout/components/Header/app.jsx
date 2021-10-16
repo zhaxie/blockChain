@@ -1,37 +1,57 @@
 import React from 'react'
-import { Avatar, Popover, } from 'antd'
-
+import { Avatar, Popover, Button, Layout } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useHistory, useLocation } from 'react-router-dom'
+import { login } from '@src/public/methods/index.js'
+
+import { cleanUserInfo } from '@src/store/components/user.js'
 import './app.less'
 
-const loginPopover = (props) => {
-    return <div className="login-out-btn" onClick={() => {
-        console.info('location', location)
-        props.history.push(`/client/Login?redirectUrl=${location.href}`)
-    }}>退出登录</div>
-}
+const { Header, } = Layout;
 
-const Header = (props) => {
+const HeaderContent = () => {
     const { username } = useSelector((state) => state.user.userInfoObj)
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const { pathname } = useLocation()
+    const toLogin = login()
 
     return (
-        <div className="layout-header-wrappper">
-            <div className="left-content">
-                广州公司报备
-            </div>
-            <div className="right-content">
-                <div>
-                    <Popover content={loginPopover(props)} placement="bottom">
-                        <Avatar size={32} icon={<UserOutlined />} />
-                        <span className="user-name">{username}</span>
-                    </Popover>
+        <Header style={{ position: 'fixed', zIndex: 1, width: '100%', }}>
+            <div className="layout-header-wrappper">
+                <div
+                    className="left-content"
+                    onClick={() => {
+                        if (pathname !== '/') {
+                            history.push('/')
+                        }
+                    }}
+                >
+                    广州公司报备
                 </div>
+                <div className="right-content">
+                    <div>
+                        {username ?
+                            <Popover content={
+                                <div className="login-out-btn"
+                                    onClick={() => {
+                                        dispatch(cleanUserInfo())
+                                    }}
+                                >退出登录</div>
+                            } placement="bottom">
+                                <Avatar size={32} icon={<UserOutlined />} />
+                                <span className="user-name">{username}</span>
+                            </Popover>
+                            : <Button onClick={toLogin}>去登录</Button>
+                        }
+                    </div>
 
+                </div>
             </div>
-        </div>
+        </Header>
     )
 }
 
-export default Header
+export default HeaderContent

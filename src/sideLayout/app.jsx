@@ -6,7 +6,7 @@ import LeftSideNav from './components/LeftSideNav/app'
 import {
     Route,
 } from "react-router-dom";
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 import './app.less'
 class LayOut extends React.Component {
@@ -14,9 +14,7 @@ class LayOut extends React.Component {
         const { routes } = this.props
         return (
             <Layout>
-                <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-                    <HeaderContent {...this.props}></HeaderContent>
-                </Header>
+                <HeaderContent ></HeaderContent>
                 <Content>
                     <Layout>
                         <Sider

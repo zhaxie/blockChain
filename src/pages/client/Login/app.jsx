@@ -1,25 +1,30 @@
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, message } from 'antd';
 import ContentWrapper from '@src/components/ContentWrapper/app.jsx'
 import { useDispatch } from 'react-redux'
+import { useHistory, useLocation } from 'react-router-dom'
 import { setUserInfo } from '@src/store/components/user.js'
 
 import './app.less'
 
 const Login = (props) => {
     const dispatch = useDispatch()
+    const location = useLocation()
+    const history = useHistory()
 
     const onFinish = (values) => {
         console.log('Success:', values);
         console.info('location', location)
         console.info('location.hash', location.hash)
+        const { search } = location
 
-        const search = `?${location.hash.split('?')[1]}`
         const redirectUrl = new URLSearchParams(search).get('redirectUrl')
 
         console.info('redirectUrl', redirectUrl)
 
         dispatch(setUserInfo(values))
-        props.history.push(redirectUrl || '/')
+        history.push(redirectUrl || '/')
+
+        message.success('登录成功')
     };
 
     const onFinishFailed = (errorInfo) => {

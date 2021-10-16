@@ -1,25 +1,40 @@
 import React from 'react'
-import { Button } from 'antd'
+import { Button, Layout } from 'antd'
+import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import HeaderContent from '@src/sideLayout/components/Header/app.jsx'
+import { login } from '@src/public/methods/index.js'
+
+import './app.less'
+
+const { Header, Content, } = Layout;
 
 const Home = (props) => {
     const { username } = useSelector((state) => state.user.userInfoObj)
-    const { pathname } = useLocation
+    const toLogin = login()
+    const history = useHistory()
 
-    return <div>
-        <div>首页</div>
-        <Button type="primary"
-            onClick={() => {
-                const pathBaseInfo = '/sideLayout/MyBaseInfo'
-                if (username) {
-                    props.history.push(pathBaseInfo)
-                } else {
-                    const pathBaseInfo = '/sideLayout/MyBaseInfo'
-                    props.history.push(`/client/Login?redirectUrl=${pathname}`)
-                }
-            }}
-        >审核报备</Button>
+    return <div className="home-wrapper">
+        <Layout>
+            <HeaderContent ></HeaderContent>
+            <Content>
+                <div className="banner-wrapper">
+                    <img className="img-content" src="
+                    https://static.gdzwfw.gov.cn/mhyy-be/20210929/1bcd05f1-d634-4805-85eb-6df372bc1132.jpg" alt="" />
+                </div>
+                <div className="footer-wrapper">
+                    <Button type="primary" size="large" onClick={() => {
+                        const toPath = '/sideLayout/MyBaseInfo'
+
+                        if (username) {
+                            history.push(toPath)
+                        } else {
+                            toLogin(toPath)
+                        }
+                    }}> 点我去报备 {'>'} </Button>
+                </div>
+            </Content>
+        </Layout>
     </div>
 }
 
