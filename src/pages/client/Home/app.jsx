@@ -1,9 +1,11 @@
 import React from 'react'
 import { Button } from 'antd'
 import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 const Home = (props) => {
     const { username } = useSelector((state) => state.user.userInfoObj)
+    const { pathname } = useLocation
 
     return <div>
         <div>首页</div>
@@ -13,7 +15,8 @@ const Home = (props) => {
                 if (username) {
                     props.history.push(pathBaseInfo)
                 } else {
-                    props.history.push(`/client/Login?redirectUrl=${pathBaseInfo}`)
+                    const pathBaseInfo = '/sideLayout/MyBaseInfo'
+                    props.history.push(`/client/Login?redirectUrl=${pathname}`)
                 }
             }}
         >审核报备</Button>

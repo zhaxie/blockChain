@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import ContentWrapper from '@src/components/ContentWrapper/app.jsx'
 import { Form, Input, InputNumber, Button, Select, Row, Col, Cascader, Modal } from 'antd';
-import { useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { addCheck } from '@src/store/components/check.js'
+import { add as addAcount } from '@src/store/components/acount.js'
 
 const { Option } = Select;
 const layout = {
@@ -15,39 +17,147 @@ const layout = {
 };
 
 const validateMessages = {
-    required: '${label} is required!',
+    required: '${label}必填!',
     types: {
-        email: '${label} is not a valid email!',
-        number: '${label} is not a valid number!',
+        email: '${label} 邮箱格式有误!',
+        number: '${label} 请输入数字!',
     },
     number: {
-        range: '${label} must be between ${min} and ${max}',
+        range: '${label} 请输入 ${min} 和 ${max} 之间的数字',
     },
 };
 
+
+const companyTypes = [
+    {
+        label: '合资',
+        value: 1,
+    },
+    {
+        label: '独资',
+        value: 2,
+    },
+    {
+        label: '国有',
+        value: 3,
+    },
+    {
+        label: '私营',
+        value: 4,
+    },
+    {
+        label: '全民所有制',
+        value: 5,
+    },
+    {
+        label: '集体所有制',
+        value: 6,
+    },
+    {
+        label: '股份制',
+        value: 7,
+    },
+    {
+        label: '有限责任',
+        value: 8,
+    },
+    {
+        label: '其他',
+        value: 9,
+    },
+]
+
+const liveAreaList = [
+    {
+        value: '广州',
+        label: '广州',
+        children: [
+            {
+                value: '越秀区',
+                label: '越秀区',
+            },
+            {
+                value: '海珠区',
+                label: '海珠区',
+            },
+            {
+                value: '荔湾区',
+                label: '荔湾区',
+            },
+            {
+                value: '天河区',
+                label: '天河区',
+            },
+            {
+                value: '白云区',
+                label: '白云区',
+            },
+            {
+                value: '黄埔区',
+                label: '黄埔区',
+            },
+            {
+                value: '南沙区',
+                label: '南沙区',
+            },
+            {
+                value: '番禺区',
+                label: '番禺区',
+            },
+            {
+                value: '花都区',
+                label: '花都区',
+            },
+            {
+                value: '增城区',
+                label: '增城区',
+            },
+            {
+                value: '从化区',
+                label: '从化区',
+            },
+        ],
+    },
+];
+
 const MyBaseInfo = (props) => {
+    let currentCompanyCode;
+    let current;
+    let isDisabled
+
+    const { search } = useLocation()
+    const uRLSearchParams = new URLSearchParams(search)
+    const id = Number(uRLSearchParams.get('id'))
+    const toCheckList = useSelector((state) => state.check.toCheckList)
+
+    if (id) {
+        current = toCheckList.find(item => item.id === id)
+        isDisabled = true
+    } else {
+        current = {
+            liveCode: ['广州', '天河区',],
+            name: '企业名',
+            companyType: 1,
+            registerCode: '1111',
+            mainBodyId: '4405071995',
+            liveStatus: 1,
+            companyCode: 111222,
+            societyCode: 10086,
+            liveBelong: 1,
+            companyDutyCode: 222,
+            productionArea: ['广州', '天河区',],
+            productionAreaDetails: '测试具体生产地址1',
+            liveDetails: "具体住所地址",
+            paidCapital: 100,
+            tel: 110,
+            areaCode: 120,
+            staffQty: 1000,
+            saleRange: '一般经营范围',
+            permiseSaleRange: '许可经营范围',
+        }
+    }
     const dispatch = useDispatch()
-    const [formValues, setFormValues] = useState({
-        liveCode: ['广州', '天河区',],
-        name: '企业名',
-        companyType: 1,
-        registerCode: '1111',
-        mainBodyId: '4405071995',
-        liveStatus: 1,
-        companyCode: 111222,
-        societyCode: 10086,
-        liveBelong: 1,
-        companyDutyCode: 222,
-        productionArea: ['广州', '天河区',],
-        productionAreaDetails: '测试具体生产地址1',
-        liveDetails: "具体住所地址",
-        paidCapital: 100,
-        tel: 110,
-        areaCode: 120,
-        staffQty: 1000,
-        saleRange: '一般经营范围',
-        permiseSaleRange: '许可经营范围',
-    });
+    const [formValues] = useState(current);
 
     const onFinish = (values) => {
         console.log(values);
@@ -57,107 +167,17 @@ const MyBaseInfo = (props) => {
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-                console.info('values', values)
-                console.info('dispatch', dispatch)
-                dispatch(addCheck(values))
-                props.history.push('/sideLayout/SubmitBaseInfoResult')
+                const id = new Date().getTime()
+
+                dispatch(addCheck({
+                    ...values,
+                    id
+                }))
+                props.history.push(`/sideLayout/SubmitBaseInfoResult?id=${id}`)
 
             }
         })
     };
-
-    const companyTypes = [
-        {
-            label: '合资',
-            value: 1,
-        },
-        {
-            label: '独资',
-            value: 2,
-        },
-        {
-            label: '国有',
-            value: 3,
-        },
-        {
-            label: '私营',
-            value: 4,
-        },
-        {
-            label: '全民所有制',
-            value: 5,
-        },
-        {
-            label: '集体所有制',
-            value: 6,
-        },
-        {
-            label: '股份制',
-            value: 7,
-        },
-        {
-            label: '有限责任',
-            value: 8,
-        },
-        {
-            label: '其他',
-            value: 9,
-        },
-    ]
-
-    const liveAreaList = [
-        {
-            value: '广州',
-            label: '广州',
-            children: [
-                {
-                    value: '越秀区',
-                    label: '越秀区',
-                },
-                {
-                    value: '海珠区',
-                    label: '海珠区',
-                },
-                {
-                    value: '荔湾区',
-                    label: '荔湾区',
-                },
-                {
-                    value: '天河区',
-                    label: '天河区',
-                },
-                {
-                    value: '白云区',
-                    label: '白云区',
-                },
-                {
-                    value: '黄埔区',
-                    label: '黄埔区',
-                },
-                {
-                    value: '南沙区',
-                    label: '南沙区',
-                },
-                {
-                    value: '番禺区',
-                    label: '番禺区',
-                },
-                {
-                    value: '花都区',
-                    label: '花都区',
-                },
-                {
-                    value: '增城区',
-                    label: '增城区',
-                },
-                {
-                    value: '从化区',
-                    label: '从化区',
-                },
-            ],
-        },
-    ];
-
 
     return (
         <ContentWrapper>
@@ -166,6 +186,7 @@ const MyBaseInfo = (props) => {
                 onFinish={onFinish}
                 validateMessages={validateMessages}
                 initialValues={formValues}>
+
                 <Form.Item
                     name={['name']}
                     label="企业名称"
@@ -175,7 +196,7 @@ const MyBaseInfo = (props) => {
                         },
                     ]}
                 >
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                     name={['companyType']}
@@ -189,6 +210,7 @@ const MyBaseInfo = (props) => {
                     <Select
                         placeholder="请选择企业类型"
                         allowClear
+                        disabled={isDisabled}
                     >
                         {companyTypes.map(item => {
                             return <Option value={item.value} key={item.value}>{item.label}</Option>
@@ -199,13 +221,13 @@ const MyBaseInfo = (props) => {
                     name={['registerCode']}
                     label="注册号"
                 >
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                     name={['mainBodyId']}
                     label="主体身份证"
                 >
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                     name={['liveStatus']}
@@ -214,6 +236,7 @@ const MyBaseInfo = (props) => {
                     <Select
                         placeholder="请选择经营状态"
                         allowClear
+                        disabled={isDisabled}
                     >
                         <Option value={1} key={1}>在营</Option>
                         <Option value={2} key={2}>已结业</Option>
@@ -227,11 +250,17 @@ const MyBaseInfo = (props) => {
                         <Form.Item
                             name={['companyCode']}
                         >
-                            <Input />
+                            <Input disabled={isDisabled} onChange={(e) => {
+                                currentCompanyCode = e.target.value
+                            }} />
                         </Form.Item>
                         <Col >
                             <Button type="primary" onClick={() => {
-                                props.history.push('/sideLayout/AcountList')
+                                const code = currentCompanyCode || formValues.companyCode
+
+                                dispatch(addAcount(code))
+
+                                props.history.push(`/sideLayout/AcountList?code=${code}`)
                             }}>
                                 查看
                             </Button>
@@ -242,7 +271,7 @@ const MyBaseInfo = (props) => {
                     name={['societyCode']}
                     label="统一社会信用代码（18位）"
                 >
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                     name={['liveCode']}
@@ -251,15 +280,17 @@ const MyBaseInfo = (props) => {
                     <Cascader
                         options={liveAreaList}
                         placeholder="请选择住所所在区"
+                        disabled={isDisabled}
                     />
                 </Form.Item>
                 <Form.Item name={['liveDetails']} label="具体住所地址">
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item name={['liveBelong']} label="住所产权">
                     <Select
                         placeholder="请选择经营状态"
                         allowClear
+                        disabled={isDisabled}
                     >
                         <Option value={1} key={1}>私产房</Option>
                         <Option value={2} key={2}>公房</Option>
@@ -271,7 +302,7 @@ const MyBaseInfo = (props) => {
                     name={['paidCapital']}
                     label="实收资本（万元）"
                 >
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                     label="企业税号"
@@ -281,7 +312,7 @@ const MyBaseInfo = (props) => {
                             <Form.Item
                                 name={['companyDutyCode']}
                             >
-                                <Input />
+                                <Input disabled={isDisabled} />
                             </Form.Item>
                         </Col>
                         <Button type="primary" onClick={() => {
@@ -298,10 +329,11 @@ const MyBaseInfo = (props) => {
                     <Cascader
                         options={liveAreaList}
                         placeholder="请选择生产经营所在区"
+                        disabled={isDisabled}
                     />
                 </Form.Item>
                 <Form.Item name={['productionAreaDetails']} label="具体生产经营地址">
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                     name={['tel']}
@@ -312,31 +344,33 @@ const MyBaseInfo = (props) => {
                         },
                     ]}
                 >
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                     name={['areaCode']}
                     label="邮政编码"
                 >
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                     name={['staffQty']}
                     label="从业人数"
                 >
-                    <Input />
+                    <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item name={['saleRange']} label="一般经营范围">
-                    <Input.TextArea />
+                    <Input.TextArea disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item name={['permiseSaleRange']} label="许可经营范围">
-                    <Input.TextArea />
+                    <Input.TextArea disabled={isDisabled} />
                 </Form.Item>
-                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                    <Button type="primary" htmlType="submit">
-                        提交
-                    </Button>
-                </Form.Item>
+                {isDisabled ? null :
+                    <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                        <Button type="primary" htmlType="submit">
+                            提交
+                        </Button>
+                    </Form.Item>
+                }
             </Form>
         </ContentWrapper>
     );

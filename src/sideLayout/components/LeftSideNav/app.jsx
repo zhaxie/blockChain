@@ -1,21 +1,26 @@
-import React from 'react'
-import { sideLayoutRoutes } from '@src/router/config.jsx'
+import React, { useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { sideLayoutRoutes } from '@src/router/config.jsx'
 
-class LeftSideNav extends React.Component {
-    render() {
-        console.info('sideLayoutRoutes', sideLayoutRoutes)
-        return (
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-                {sideLayoutRoutes.map((item, index) => {
-                    return <Menu.Item key={index} >
-                        <Link to={item.path}>{item.name}</Link>
-                    </Menu.Item>
-                })}
-            </Menu>
-        )
-    }
+function LeftSideNav() {
+    const { pathname } = useLocation();
+
+    console.info('pathname', pathname)
+
+    return (
+        <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={[pathname]}
+        >
+            {sideLayoutRoutes.map((item, index) => {
+                return <Menu.Item key={item.path} >
+                    <Link to={item.path}>{item.name}</Link>
+                </Menu.Item>
+            })}
+        </Menu>
+    )
 }
 
 export default LeftSideNav

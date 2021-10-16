@@ -5,6 +5,7 @@ import MyBaseInfo from '../pages/client/MyBaseInfo/app'
 import SubmitBaseInfoResult from '../pages/client/SubmitBaseInfoResult/app'
 import toCheckList from '@src/pages/admin/toCheckList/app.jsx'
 import AcountList from '@src/pages/AcountList/app.jsx'
+import AcountDetails from '@src/pages/AcountDetails/app.jsx'
 
 import Home from '../pages/client/Home/app'
 
@@ -42,6 +43,11 @@ const fullScreenRoutes = [
                 name: '账本列表',
                 path: "/sideLayout/AcountList",
                 component: AcountList
+            },
+            {
+                name: '账本列表',
+                path: "/sideLayout/AcountDetails",
+                component: AcountDetails
             },
         ]
     },

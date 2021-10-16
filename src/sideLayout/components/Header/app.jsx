@@ -1,5 +1,8 @@
 import React from 'react'
-import { Avatar, Popover } from 'antd'
+import { Avatar, Popover, } from 'antd'
+
+import { UserOutlined } from '@ant-design/icons';
+
 import { useSelector } from 'react-redux'
 import './app.less'
 
@@ -11,7 +14,7 @@ const loginPopover = (props) => {
 }
 
 const Header = (props) => {
-    const {username} = useSelector((state) => state.user.userInfoObj)
+    const { username } = useSelector((state) => state.user.userInfoObj)
 
     return (
         <div className="layout-header-wrappper">
@@ -21,7 +24,7 @@ const Header = (props) => {
             <div className="right-content">
                 <div>
                     <Popover content={loginPopover(props)} placement="bottom">
-                        <Avatar size={32} />
+                        <Avatar size={32} icon={<UserOutlined />} />
                         <span className="user-name">{username}</span>
                     </Popover>
                 </div>
